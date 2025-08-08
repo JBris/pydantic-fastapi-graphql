@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "pydantic-fastapi-graphql"
+version = "0.1.0"
+description = ""
+authors = ["James Bristow <james.bristow@plantandfood.co.nz>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.14"
+pydantic-mongo = "^3.1.0"
+sqlmodel = "^0.0.24"
+pydantic = {extras = ["email", "timezone"], version = "^2.11.7"}
+fastapi = "^0.116.1"
+sqlalchemy = "^2.0.41"
+strawberry-graphql = {extras = ["debug-server"], version = "^0.278.0"}
+psycopg2 = "^2.9.10"
+python-dotenv = "^1.1.1"
+pymongo = "^4.13.2"
+pandera = {extras = ["pandas"], version = "^0.25.0"}
+pandas = "^2.3.1"
+polyfactory = "^2.22.1"
+copulas = "^0.12.3"
+scikit-learn = "^1.7.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,41 @@
+services:
+
+  postgres:
+    image: postgres:15.3-bullseye
+    restart: always
+    stop_grace_period: 10s
+    environment:
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: $DB_NAME
+      POSTGRES_USER: $DB_USER
+    ports:
+      - 5432:5432
+      
+  mongo:
+    image: mongo:7.0.22-jammy
+    restart: always
+    stop_grace_period: 10s
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: $MONGO_INITDB_ROOT_USERNAME
+      MONGO_INITDB_ROOT_PASSWORD: $MONGO_INITDB_ROOT_PASSWORD
+    ports:
+      - 27017:27017
+      
+  mongo-express:
+    image: mongo-express:1.0.2-20-alpine3.19
+    restart: always
+    stop_grace_period: 10s
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: $MONGO_INITDB_ROOT_USERNAME
+      ME_CONFIG_MONGODB_ADMINPASSWORD: $MONGO_INITDB_ROOT_PASSWORD
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
+    ports:
+      - 8081:8081
+      
+  cloudbeaver:
+    image: dbeaver/cloudbeaver:23.3.1
+    restart: always
+    stop_grace_period: 10s
+    ports:
+      - 8978:8978
