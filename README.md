@@ -1,2 +1,3 @@
 # pydantic-fastapi-graphql
-Testing Pydantic, FastAPI, and GraphQL with SQLModel and pydantic-mongo
+
+Testing Pydantic, FastAPI, polyfactory, pandera and GraphQL with SQLModel and pydantic-mongo.
