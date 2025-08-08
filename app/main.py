@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 import uvicorn
 from dotenv import load_dotenv
 import os
@@ -8,6 +9,8 @@ from pymongo import MongoClient
 from sqlmodel import create_engine, Session, SQLModel, select
 import strawberry
 from strawberry.fastapi import GraphQLRouter
+from io import BytesIO
+import erdantic as erd
 from iris import IrisModel, IrisSQL, load_data, IrisRepository, IrisDocument, IrisDataFrame, IrisQuery, IrisFactory
 
 load_dotenv(osp.join("..", ".env"))
@@ -98,6 +101,16 @@ async def post_sql() -> list[IrisSQL]:
         for record in records:
             session.refresh(record)
     return records
+
+@app.get("/plot")
+async def plot_erd():       
+    diagram = erd.create(IrisModel)
+    buf = BytesIO()
+    diagram.to_graphviz().draw(
+        buf, format='jpeg', prog='dot'
+    )
+    buf.seek(0)
+    return StreamingResponse(buf, media_type="image/jpeg")
 
 app.include_router(graphql_app, prefix="/graphql")
 app.add_websocket_route("/graphql", graphql_app)
